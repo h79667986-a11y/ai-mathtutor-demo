@@ -224,11 +224,11 @@ React 渲染答案、解题步骤、知识点、易错点
 用户可通过 /api/feedback 提交 Bad Case
 ```
 
-## 面试介绍话术
+## 项目亮点
 
-我做了一个 AI MathTutor Demo，用 React 作为前端，FastAPI 作为后端。前端页面包含题目输入框、生成按钮、答案展示区和 Bad Case 反馈输入框。用户输入数学题后，React 通过 fetch 向 FastAPI 的 `/api/solve` 接口发送 POST 请求。后端接收 `question`、`grade`、`mode` 参数，然后返回结构化 JSON，包括 `answer`、`steps`、`knowledge_points` 和 `common_mistakes`。前端拿到 JSON 后，把解题结果渲染到页面上。用户如果觉得答案有问题，也可以通过 `/api/feedback` 提交 Bad Case，后续可以用于 Prompt 优化和模型质量改进。
+这个 Demo 展示了一个 AI 教育产品的基础工程链路：React 前端负责题目输入和结果展示，FastAPI 后端负责接收 JSON 请求并返回结构化解题结果。前端通过 fetch 调用 `/api/solve` 接口，后端返回 `answer`、`steps`、`knowledge_points` 和 `common_mistakes`，页面再按模块渲染结果。
 
-这个 Demo 虽然没有接入真实大模型，但保留了 AI 教育产品的核心工程结构：输入问题、后端处理、结构化输出、前端展示和反馈闭环。后续可以把当前规则解析模块替换成大模型 API 或符号计算引擎。
+项目还加入了 Bad Case 反馈接口，用于模拟 AI 产品中的质量改进闭环。后续可以把当前规则解析模块替换为大模型 API 或符号计算库，扩展到更复杂的数学题型。
 
 ## 后续优化方向
 
