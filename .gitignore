@@ -3,12 +3,12 @@ backend/.venv/
 __pycache__/
 *.pyc
 
-# Node / React
+# React / Node
 frontend/node_modules/
 frontend/dist/
 
-# System
+# macOS
 .DS_Store
 
-# Env
+# Environment
 .env
