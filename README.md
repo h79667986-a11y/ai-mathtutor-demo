@@ -36,7 +36,7 @@
 ai-mathtutor-demo/
 ├── backend/
 │   ├── main.py
-│   └── .venv/
+│   └── requirements.txt
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx
@@ -154,7 +154,9 @@ ai-mathtutor-demo/
 
 ```bash
 cd ~/Desktop/ai-mathtutor-demo/backend
+python -m venv .venv
 source .venv/bin/activate
+pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
 
@@ -170,6 +172,12 @@ http://127.0.0.1:8000
 cd ~/Desktop/ai-mathtutor-demo/frontend
 npm install
 npm run dev
+```
+
+如果后端不是运行在默认地址，可以在启动前端前设置：
+
+```bash
+VITE_API_BASE_URL=http://127.0.0.1:8000 npm run dev
 ```
 
 前端默认运行在：

@@ -1,6 +1,26 @@
 import { useState } from "react";
 import "./App.css";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+
+function apiUrl(path) {
+  return `${API_BASE_URL}${path}`;
+}
+
+async function readJsonResponse(response) {
+  const contentType = response.headers.get("content-type") || "";
+  const data = contentType.includes("application/json")
+    ? await response.json()
+    : null;
+
+  if (!response.ok) {
+    const message = data?.detail || data?.message || `请求失败：${response.status}`;
+    throw new Error(message);
+  }
+
+  return data;
+}
+
 function ListBlock({ items = [], type = "number" }) {
   return (
     <div className="list-block">
@@ -31,7 +51,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/solve", {
+      const response = await fetch(apiUrl("/api/solve"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -43,10 +63,10 @@ function App() {
         })
       });
 
-      const data = await response.json();
+      const data = await readJsonResponse(response);
       setResult(data);
     } catch (error) {
-      alert("请求后端失败，请检查 FastAPI 是否正在运行");
+      alert(`请求后端失败：${error.message}`);
       console.error(error);
     } finally {
       setLoading(false);
@@ -59,20 +79,27 @@ function App() {
       return;
     }
 
-    await fetch("http://127.0.0.1:8000/api/feedback", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        question: result.question,
-        answer: result.answer,
-        reason: feedbackReason || "答案不够准确"
-      })
-    });
+    try {
+      const response = await fetch(apiUrl("/api/feedback"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          question: result.question,
+          answer: result.answer,
+          reason: feedbackReason || "答案不够准确"
+        })
+      });
 
-    alert("Bad Case 已记录");
-    setFeedbackReason("");
+      await readJsonResponse(response);
+
+      alert("Bad Case 已记录");
+      setFeedbackReason("");
+    } catch (error) {
+      alert(`提交反馈失败：${error.message}`);
+      console.error(error);
+    }
   }
 
   return (

@@ -71,6 +71,41 @@ def solve_linear_equation(question: str):
     c = int(c_str)
 
     numerator = c - b
+
+    if a == 0:
+        if numerator == 0:
+            return {
+                "answer": "方程恒成立，x 可以是任意数",
+                "steps": [
+                    "第一步：识别题型，x 的系数为 0。",
+                    f"第二步：原方程可理解为 0x + ({b}) = {c}。",
+                    f"第三步：因为 0x 恒等于 0，方程化简为 {b} = {c}。",
+                    "第四步：等式成立，所以 x 可以是任意数。"
+                ],
+                "knowledge_points": ["一元一次方程", "零系数方程", "恒等式"],
+                "common_mistakes": [
+                    "把 0 当作除数继续求解",
+                    "忽略 x 的系数为 0 的特殊情况",
+                    "没有判断等式两边是否相等"
+                ]
+            }
+
+        return {
+            "answer": "方程无解",
+            "steps": [
+                "第一步：识别题型，x 的系数为 0。",
+                f"第二步：原方程可理解为 0x + ({b}) = {c}。",
+                f"第三步：因为 0x 恒等于 0，方程化简为 {b} = {c}。",
+                "第四步：等式不成立，所以这个方程无解。"
+            ],
+            "knowledge_points": ["一元一次方程", "零系数方程", "无解方程"],
+            "common_mistakes": [
+                "把 0 当作除数继续求解",
+                "忽略 x 的系数为 0 的特殊情况",
+                "没有判断等式两边是否相等"
+            ]
+        }
+
     x = Fraction(numerator, a)
 
     if x.denominator == 1:
